@@ -1,27 +1,27 @@
-bunyan-rotating-filesize is a stream for [bunyan](https://github.com/trentm/node-bunyan)
-that can be used to rotate a log file when it reaches a certain size
+This is a small bit of example code to use [logrotate-stream](https://github.com/dstokes/logrotate-stream) with [bunyan](https://github.com/trentm/node-bunyan)
 
 # Installation
 
-    npm install bunyan-rotating-filesize
+    npm install logrotate-stream
 
 # Usage
 
 ```javascript
-var bunyan       = require( "bunyan" );
-var RotatingFile = require( "bunyan-rotating-filesize" );
+var bunyan         = require( "bunyan"           );
+var RotatingStream = require( "logrotate-stream" );
 
 var log = bunyan.createLogger(
 {
     name: "myLogger",
     streams: [ {
-        name:   "mylogfile",
-        level:  "debug",
-        stream: new RotatingFile(
+        name:       "logfile",
+        level:      "debug",
+        stream: new RotatingStream(
         {
-            path:      __dirname + "/file.log",
-            filesize:  10000,
-            count:     5
+            file:       __dirname + "/file.log",
+            size:       "1k",
+            keep:       5,
+            compress:   true
         } )
     } ]
 } );
@@ -29,4 +29,4 @@ var log = bunyan.createLogger(
 log.debug( { foo: "bar" }, "hello world" );
 ```
 
-The filesize option is declared in bytes. The filecount determines how many files are to be kept.
+Run  index.js to see this in action
